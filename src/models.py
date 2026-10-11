@@ -1,5 +1,5 @@
 from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy import Boolean, ForeignKey, JSON, String
+from sqlalchemy import JSON, Boolean, ForeignKey, String
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 db = SQLAlchemy()
@@ -113,7 +113,11 @@ class Character(db.Model):
             "mass": self.mass,
             "birth_year": self.birth_year,
             "planet_id": self.planet_id,
-            "homeworld": self.homeworld.name if self.homeworld else (self.properties or {}).get("homeworld"),
+            "homeworld": (
+                self.homeworld.name
+                if self.homeworld
+                else (self.properties or {}).get("homeworld")
+            ),
         }
 
 

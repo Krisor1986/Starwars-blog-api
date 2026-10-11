@@ -10,15 +10,19 @@ from models import (
     FavoriteCharacter,
     FavoritePlanet,
     FavoriteVehicle,
-    Vehicle,
     Planet,
     User,
+    Vehicle,
     db,
 )
 
 
 class UserAdmin(ModelView):
-    form_excluded_columns = ("favorite_planets", "favorite_characters", "favorite_vehicles")
+    form_excluded_columns = (
+        "favorite_planets",
+        "favorite_characters",
+        "favorite_vehicles",
+    )
     column_exclude_list = ("password",)
     column_details_exclude_list = ("password",)
     column_export_exclude_list = ("password",)
@@ -26,7 +30,6 @@ class UserAdmin(ModelView):
     def on_model_change(self, form, model, is_created):
         if is_created or not model.password.startswith(("scrypt:", "pbkdf2:")):
             model.password = generate_password_hash(model.password)
-
 
 
 class PlanetAdmin(ModelView):
