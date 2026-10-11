@@ -1,0 +1,381 @@
+{
+  "info": {
+    "name": "Star Wars Blog API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": "Create users, planets and characters in Flask Admin first. Update IDs below. X-User-ID selects a user for the exercise and does not authenticate the caller."
+  },
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:3001"
+    },
+    {
+      "key": "user_id",
+      "value": "1"
+    },
+    {
+      "key": "people_id",
+      "value": "1"
+    },
+    {
+      "key": "planet_id",
+      "value": "1"
+    },
+    {
+      "key": "vehicle_id",
+      "value": "1"
+    }
+  ],
+  "item": [
+    {
+      "name": "List people",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "X-User-ID",
+            "value": "{{user_id}}"
+          }
+        ],
+        "url": "{{base_url}}/people"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Expected status 200\", () => pm.response.to.have.status(200));",
+              "pm.test(\"JSON response\", () => pm.response.to.be.json);"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Get person",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "X-User-ID",
+            "value": "{{user_id}}"
+          }
+        ],
+        "url": "{{base_url}}/people/{{people_id}}"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Expected status 200\", () => pm.response.to.have.status(200));",
+              "pm.test(\"JSON response\", () => pm.response.to.be.json);"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "List planets",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "X-User-ID",
+            "value": "{{user_id}}"
+          }
+        ],
+        "url": "{{base_url}}/planets"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Expected status 200\", () => pm.response.to.have.status(200));",
+              "pm.test(\"JSON response\", () => pm.response.to.be.json);"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Get planet",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "X-User-ID",
+            "value": "{{user_id}}"
+          }
+        ],
+        "url": "{{base_url}}/planets/{{planet_id}}"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Expected status 200\", () => pm.response.to.have.status(200));",
+              "pm.test(\"JSON response\", () => pm.response.to.be.json);"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "List users",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "X-User-ID",
+            "value": "{{user_id}}"
+          }
+        ],
+        "url": "{{base_url}}/users"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Expected status 200\", () => pm.response.to.have.status(200));",
+              "pm.test(\"JSON response\", () => pm.response.to.be.json);"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "List favorites",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "X-User-ID",
+            "value": "{{user_id}}"
+          }
+        ],
+        "url": "{{base_url}}/users/favorites"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Expected status 200\", () => pm.response.to.have.status(200));",
+              "pm.test(\"JSON response\", () => pm.response.to.be.json);"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Add planet favorite",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "X-User-ID",
+            "value": "{{user_id}}"
+          }
+        ],
+        "url": "{{base_url}}/favorite/planet/{{planet_id}}"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Expected status 201\", () => pm.response.to.have.status(201));",
+              "pm.test(\"JSON response\", () => pm.response.to.be.json);"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Add character favorite",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "X-User-ID",
+            "value": "{{user_id}}"
+          }
+        ],
+        "url": "{{base_url}}/favorite/people/{{people_id}}"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Expected status 201\", () => pm.response.to.have.status(201));",
+              "pm.test(\"JSON response\", () => pm.response.to.be.json);"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Remove planet favorite",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "X-User-ID",
+            "value": "{{user_id}}"
+          }
+        ],
+        "url": "{{base_url}}/favorite/planet/{{planet_id}}"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Expected status 200\", () => pm.response.to.have.status(200));",
+              "pm.test(\"JSON response\", () => pm.response.to.be.json);"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Remove character favorite",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "X-User-ID",
+            "value": "{{user_id}}"
+          }
+        ],
+        "url": "{{base_url}}/favorite/people/{{people_id}}"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Expected status 200\", () => pm.response.to.have.status(200));",
+              "pm.test(\"JSON response\", () => pm.response.to.be.json);"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "List vehicles",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "X-User-ID",
+            "value": "{{user_id}}"
+          }
+        ],
+        "url": "{{base_url}}/vehicles"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Expected status 200\", () => pm.response.to.have.status(200));",
+              "pm.test(\"JSON response\", () => pm.response.to.be.json);"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Get vehicle",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "X-User-ID",
+            "value": "{{user_id}}"
+          }
+        ],
+        "url": "{{base_url}}/vehicles/{{vehicle_id}}"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Expected status 200\", () => pm.response.to.have.status(200));",
+              "pm.test(\"JSON response\", () => pm.response.to.be.json);"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Add vehicle favorite",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "X-User-ID",
+            "value": "{{user_id}}"
+          }
+        ],
+        "url": "{{base_url}}/favorite/vehicle/{{vehicle_id}}"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Expected status 201\", () => pm.response.to.have.status(201));",
+              "pm.test(\"JSON response\", () => pm.response.to.be.json);"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Remove vehicle favorite",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "X-User-ID",
+            "value": "{{user_id}}"
+          }
+        ],
+        "url": "{{base_url}}/favorite/vehicle/{{vehicle_id}}"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Expected status 200\", () => pm.response.to.have.status(200));",
+              "pm.test(\"JSON response\", () => pm.response.to.be.json);"
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

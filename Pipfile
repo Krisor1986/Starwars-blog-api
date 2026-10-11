@@ -23,7 +23,9 @@ graphviz = "*"
 python_version = "3.13"
 
 [scripts]
-start="flask run -p 3000 -h 0.0.0.0"
+seed="flask seed"
+download_data="python scripts/download_starwars.py"
+start="flask run -p 3001 -h 0.0.0.0"
 init="flask db init"
 migrate="flask db migrate"
 reset_db="bash ./docs/assets/reset_migrations.bash"
