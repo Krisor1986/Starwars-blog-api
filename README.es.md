@@ -1,76 +1,64 @@
-<a href="https://www.breatheco.de"><img height="280" align="right" src="https://github.com/4GeeksAcademy/flask-rest-hello/blob/main/docs/assets/badge.png?raw=true"></a>
+# Star Wars Data Modeling
 
-# Plantilla de Flask para Desarrolladores Junior
+[English](README.md) | [Español](README.es.md)
 
-Crea API's con Flask en minutos, [📹 mira el tutorial en video](https://youtu.be/ORxQ-K3BzQA).
+Ejercicio de modelado de bases de datos de 4Geeks Academy, con Python 3.13, SQLAlchemy y Flask-SQLAlchemy. Los entregables son los modelos de `src/models.py` y el archivo generado `diagram.png`.
 
-- [Documentación extensa aquí](https://start.4geeksacademy.com).
-- Integrado con Pipenv para la gestión de paquetes.
-- Despliegue rápido a render.com o heroku con `$ pipenv run deploy`.
-- Uso de archivo `.env`.
-- Integración de SQLAlchemy para la abstracción de bases de datos.
+Repositorio del proyecto: [Krisor1986/Starwars-data-modeling](https://github.com/Krisor1986/Starwars-data-modeling).
 
-## 1) Instalación
+## Modelos
 
-Esta plantilla se instala en unos segundos si la abres gratis con Codespaces (recomendado) o Gitpod.
-Omite estos pasos de instalación y salta al paso 2 si decides usar cualquiera de esos servicios.
+| Modelo | Propósito |
+| --- | --- |
+| User | Guarda email, contraseña y estado activo. Las contraseñas deben almacenarse como hashes en una futura implementación de login; la serialización excluye la contraseña. |
+| Planet | Guarda nombre, clima, terreno y población. |
+| Character | Guarda nombre, género, altura, masa, año de nacimiento y planeta natal opcional. |
+| FavoritePlanet | Relaciona un usuario con un planeta favorito. |
+| FavoriteCharacter | Relaciona un usuario con un personaje favorito. |
 
-> Importante: La plantilla está hecha para python 3.10 pero puedes cambiar la `python_version` en el Pipfile.
+Un planeta puede ser el planeta natal de muchos personajes. Usuarios y planetas tienen una relación muchos-a-muchos mediante FavoritePlanet; usuarios y personajes tienen la misma relación mediante FavoriteCharacter. Las claves primarias compuestas impiden favoritos duplicados para un mismo usuario y recurso. Al eliminar un usuario o recurso favorito mediante el ORM, también se eliminan sus registros de favoritos asociados.
 
-Los siguientes pasos se ejecutan automáticamente dentro de gitpod, si estás haciendo una instalación local debes hacerlos manualmente:
+Algunas propiedades de Star Wars se guardan como texto para admitir valores como `unknown`. Los campos opcionales pueden ser nulos.
+
+## Instalación y diagrama
+
+Instala Python 3.13 y Pipenv y ejecuta:
 
 ```sh
-pipenv install;
-psql -U root -c 'CREATE DATABASE example;'
-pipenv run init;
-pipenv run migrate;
-pipenv run upgrade;
+pipenv --python 3.13
+pipenv install
+pipenv run diagram
 ```
 
-> Nota: Los usuarios de Codespaces pueden conectarse a psql escribiendo: `psql -h localhost -U gitpod example`
+El ejecutable nativo `dot` de Graphviz debe estar disponible en el entorno virtual. El paquete Python `graphviz` no lo instala por sí solo. Compruébalo con:
 
-## 2) Cómo empezar a codificar
-
-Hay una API de ejemplo funcionando con una base de datos de ejemplo. Todo tu código de aplicación debe escribirse dentro de la carpeta `./src/`.
-
-- src/main.py (aquí es donde debes codificar tus endpoints)
-- src/models.py (tus tablas de base de datos y lógica de serialización)
-- src/utils.py (algunas clases y funciones reutilizables)
-- src/admin.py (agrega tus modelos al administrador y gestiona tus datos fácilmente)
-
-Para una explicación más detallada, busca el tutorial dentro de la carpeta `docs`.
-
-## Recuerda migrar cada vez que cambies tus modelos
-
-Debes migrar y actualizar las migraciones por cada actualización que hagas a tus modelos:
-
-```bash
-$ pipenv run migrate # (para hacer las migraciones)
-$ pipenv run upgrade  # (para actualizar tu base de datos con las migraciones)
+```sh
+pipenv run dot -V
+pipenv run python -m pip check
 ```
 
-## Generar un diagrama de la base de datos
+En el Mac de desarrollo, Graphviz 16.1.0 se compiló desde su código oficial con el renderizador nativo de macOS, se instaló en `~/.local/opt/graphviz-16.1.0` y se enlazó al entorno virtual de este proyecto. Esa instalación es local y no se incluye en el repositorio; otro ordenador necesita su propia instalación de Graphviz.
 
-Si deseas visualizar la estructura de tu base de datos en forma de diagrama, puedes generarlo con el siguiente comando:
+El comando ejecuta `src/generate_diagram.py`, lee los metadatos de SQLAlchemy y crea `diagram.png` en la raíz del proyecto. No requiere una base de datos en ejecución, un archivo .env, MySQL ni PostgreSQL. Regenera el diagrama después de modificar los modelos.
 
-```bash
-$ pipenv run diagram
+![Diagrama de la base de datos](diagram.png)
+
+## Alcance
+
+Este ejercicio define la estructura de datos y sus relaciones. No implementa login, endpoints de API, importación de SWAPI ni integración con el blog React. La estructura de la API Flask y las migraciones proceden de la plantilla; la migración original no representa los cinco modelos actuales.
+
+## Destino en GitHub y autoría
+
+`origin` apunta al repositorio de este proyecto:
+
+```text
+https://github.com/Krisor1986/Starwars-data-modeling.git
 ```
 
-Este comando generará un archivo con el diagrama de la base de datos basado en los modelos definidos en `src/models.py`.
+`upstream` apunta a la plantilla original de la escuela. Utiliza `origin` al subir el ejercicio. El nombre de la carpeta local no es una dirección de GitHub ni determina la autoría de los commits.
 
-## Verifica tu API en vivo
+La identidad Git local de este proyecto es `Krisor1986`, con la dirección noreply de la cuenta `148481002+Krisor1986@users.noreply.github.com`, evitando el email generado automáticamente por el Mac. Estos ajustes se aplican únicamente a futuros commits de este repositorio.
 
-1. Una vez que ejecutes el comando `pipenv run start` tu API comenzará a ejecutarse en vivo y podrás abrirla haciendo clic en la pestaña "ports" y luego haciendo clic en "open browser".
+## Créditos
 
-> ✋ Si estás trabajando en una nube de codificación como [Codespaces](https://docs.github.com/en/codespaces/developing-in-codespaces/forwarding-ports-in-your-codespace#sharing-a-port) o [Gitpod](https://www.gitpod.io/docs/configure/workspaces/ports#configure-port-visibility) asegúrate de que tu puerto reenviado sea público.
-
-## Publica/Despliega tu sitio web!
-
-Esta plantilla está 100% lista para desplegarse con Render.com y Heroku en cuestión de minutos. Por favor lee la [documentación oficial al respecto](https://start.4geeksacademy.com/deploy).
-
-### Contribuidores
-
-Esta plantilla fue construida como parte del [Bootcamp de Codificación](https://4geeksacademy.com/us/coding-bootcamp) de 4Geeks Academy por [Alejandro Sanchez](https://twitter.com/alesanchezr) y muchos otros contribuidores. Descubre más sobre nuestro [Curso de Desarrollador Full Stack](https://4geeksacademy.com/us/coding-bootcamps/part-time-full-stack-developer), y [Bootcamp de Ciencia de Datos](https://4geeksacademy.com/us/coding-bootcamps/datascience-machine-learning).
-
-Puedes encontrar otras plantillas y recursos como este en la [página de github de la escuela](https://github.com/4geeksacademy/).
+Basado en [4GeeksAcademy/flask-rest-hello](https://github.com/4GeeksAcademy/flask-rest-hello). Requisitos: [Star Wars Data Modeling](https://github.com/breatheco-de/exercise-starwars-data-modeling/blob/master/README.es.md). Renderizado del diagrama: [Graphviz](https://graphviz.org/).

@@ -1,76 +1,64 @@
-<a href="https://www.breatheco.de"><img height="280" align="right" src="https://github.com/4GeeksAcademy/flask-rest-hello/blob/main/docs/assets/badge.png?raw=true"></a>
+# Star Wars Data Modeling
 
-# Flask Boilerplate for Junior Developers
+[English](README.md) | [Español](README.es.md)
 
-Create flask API's in minutes, [📹 watch the video tutorial](https://youtu.be/ORxQ-K3BzQA).
+Database modeling exercise for 4Geeks Academy, using Python 3.13, SQLAlchemy and Flask-SQLAlchemy. The deliverables are the models in `src/models.py` and the generated `diagram.png`.
 
-- [Extensive documentation here](https://start.4geeksacademy.com).
-- Integrated with Pipenv for package managing.
-- Fast deloyment to render.com or heroku with `$ pipenv run deploy`.
-- Use of `.env` file.
-- SQLAlchemy integration for database abstraction.
+Project repository: [Krisor1986/Starwars-data-modeling](https://github.com/Krisor1986/Starwars-data-modeling).
 
-## 1) Installation
+## Models
 
-This template installs itself in a few seconds if you open it for free with Codespaces (recommended) or Gitpod.
-Skip this installation steps and jump to step 2 if you decide to use any of those services.
+| Model | Purpose |
+| --- | --- |
+| User | Stores email, password and active status. Passwords must be hashed before storage in a future login implementation; serialization excludes the password. |
+| Planet | Stores name, climate, terrain and population. |
+| Character | Stores name, gender, height, mass, birth year and optional homeworld. |
+| FavoritePlanet | Connects a user to a favorite planet. |
+| FavoriteCharacter | Connects a user to a favorite character. |
 
-> Important: The boiplerplate is made for python 3.10 but you can change the `python_version` on the Pipfile.
+A planet can be the homeworld of many characters. Users and planets have a many-to-many relationship through FavoritePlanet; users and characters have the same relationship through FavoriteCharacter. Composite primary keys prevent duplicate favorites for the same user and resource. Deleting a user or favorite resource through the ORM also removes its associated favorite records.
 
-The following steps are automatically runned withing gitpod, if you are doing a local installation you have to do them manually:
+Some Star Wars properties are stored as strings to support values such as `unknown`. Optional fields may be null.
+
+## Setup and diagram
+
+Install Python 3.13 and Pipenv, then run:
 
 ```sh
-pipenv install;
-psql -U root -c 'CREATE DATABASE example;'
-pipenv run init;
-pipenv run migrate;
-pipenv run upgrade;
+pipenv --python 3.13
+pipenv install
+pipenv run diagram
 ```
 
-> Note: Codespaces users can connect to psql by typing: `psql -h localhost -U gitpod example`
+Graphviz's native `dot` executable must be available to the virtual environment. The Python `graphviz` package alone does not install it. Check it with:
 
-## 2) How to Start coding
-
-There is an example API working with an example database. All your application code should be written inside the `./src/` folder.
-
-- src/main.py (it's where your endpoints should be coded)
-- src/models.py (your database tables and serialization logic)
-- src/utils.py (some reusable classes and functions)
-- src/admin.py (add your models to the admin and manage your data easily)
-
-For a more detailed explanation, look for the tutorial inside the `docs` folder.
-
-## Remember to migrate every time you change your models
-
-You have to migrate and upgrade the migrations for every update you make to your models:
-
-```bash
-$ pipenv run migrate # (to make the migrations)
-$ pipenv run upgrade  # (to update your databse with the migrations)
+```sh
+pipenv run dot -V
+pipenv run python -m pip check
 ```
 
-## Generate a database diagram
+On the development Mac, Graphviz 16.1.0 was built from its official source with the native macOS renderer, installed under `~/.local/opt/graphviz-16.1.0`, and linked into this project's virtual environment. That installation is local and is not included in the repository; another computer needs its own Graphviz installation.
 
-If you want to visualize the structure of your database in the form of a diagram, you can generate it with the following command:
+The diagram command runs `src/generate_diagram.py`, reads SQLAlchemy metadata and creates `diagram.png` in the project root. It does not require a running database, a .env file, MySQL or PostgreSQL. Regenerate it after changing the models.
 
-```bash
-$ pipenv run diagram
+![Database diagram](diagram.png)
+
+## Scope
+
+This exercise defines the data structure and relationships. It does not implement login, API endpoints, SWAPI imports or integration with the React blog. Flask API scaffolding and migrations are inherited from the template; the original migration does not represent all five current models.
+
+## GitHub destination and authorship
+
+`origin` points to this project's repository:
+
+```text
+https://github.com/Krisor1986/Starwars-data-modeling.git
 ```
 
-This command will generate a file with the database diagram based on the models defined in `src/models.py`.
+`upstream` points to the school's original template. Use `origin` when uploading your exercise. The local folder name is not a GitHub address and does not determine commit authorship.
 
-## Check your API live
+This project's local Git identity is `Krisor1986` with the account's noreply address `148481002+Krisor1986@users.noreply.github.com`, avoiding the Mac's automatically generated email. These settings apply to future commits in this repository only.
 
-1. Once you run the `pipenv run start` command your API will start running live and you can open it by clicking in the "ports" tab and then clicking "open browser".
+## Credits
 
-> ✋ If you are working on a coding cloud like [Codespaces](https://docs.github.com/en/codespaces/developing-in-codespaces/forwarding-ports-in-your-codespace#sharing-a-port) or [Gitpod](https://www.gitpod.io/docs/configure/workspaces/ports#configure-port-visibility) make sure that your forwared port is public.
-
-## Publish/Deploy your website!
-
-This boilerplate it's 100% read to deploy with Render.com and Herkou in a matter of minutes. Please read the [official documentation about it](https://start.4geeksacademy.com/deploy).
-
-### Contributors
-
-This template was built as part of the 4Geeks Academy [Coding Bootcamp](https://4geeksacademy.com/us/coding-bootcamp) by [Alejandro Sanchez](https://twitter.com/alesanchezr) and many other contributors. Find out more about our [Full Stack Developer Course](https://4geeksacademy.com/us/coding-bootcamps/part-time-full-stack-developer), and [Data Science Bootcamp](https://4geeksacademy.com/us/coding-bootcamps/datascience-machine-learning).
-
-You can find other templates and resources like this at the [school github page](https://github.com/4geeksacademy/).
+Based on [4GeeksAcademy/flask-rest-hello](https://github.com/4GeeksAcademy/flask-rest-hello). Requirements: [Star Wars Data Modeling](https://github.com/breatheco-de/exercise-starwars-data-modeling/blob/master/README.md). Diagram rendering: [Graphviz](https://graphviz.org/).
